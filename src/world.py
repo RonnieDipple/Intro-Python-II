@@ -24,25 +24,53 @@ class OutsideTile(MapTile):
     def intro_text(self):
         return """"North of you, the cave mount beckons"""
 
+
 class EnemyTile(MapTile):
     def __init__(self, x, y):
         r = random.random()
         if r < 0.50:
-            self.enemy = enemies.TheCareTaker
-            self.alive_text = "The Care Taker appears out of nowhere, to take care of you"
-            self.dead_text = "The Care Taker is no more, he is as dead as Jacks love life"
+            self.enemy = enemies.TheCareTaker()
+            self.alive_text = "The Care Taker appears out of nowhere" \
+                              " to take care of you"
+            self.dead_text = "The Care Taker is no more" \
+                             "he is as dead as Jacks love life"
+        elif r < 0.80:
+            self.enemy = enemies.TheToadPrince
+            self.alive_text = "You feel something moist hit the back of your head" \
+                              "You turn to see a frog wearing royal robes and a crown with his mouth open" \
+                              "He looks hungry"
+
+            self.dead_text = "A crown lays on the floor on it's side" \
+                             "What looks to be a half melted frog's body begins to hiss"
+
+        elif r < 0.95:
+            self.enemy = enemies.TheLocustSwarm
+            self.alive_text = "You hear a distant hum approaching" \
+                              "Out the corner of your eye you see something move" \
+                              "A cloud of darkness comes roaring towards"
+
+            self.dead_text = "Dozens of little bodies lay on the ground twitching" \
+                             "You move a little and hear a crunch"
+        else:
+            self.enemy = enemies.Amarok
+            self.alive_text = "You hear a scratch" \
+                              "You feel a gust of wind" \
+                              "You hear a growl and feel his breath on your neck"
+
+            self.dead_text = "You have done what many have failed to do" \
+                             "Amarok lays dead" \
+                             "But for how long?"
 
         super().__init__(x, y)
 
-        def intro_text(self):
-            text = self.alive_text if self.enemy.is_alive() else self.dead_text
-            return text
+    def intro_text(self):
+        text = self.alive_text if self.enemy.is_alive() else self.dead_text
+        return text
 
-        def modify_player(self, player):
-            if self.enemy.is_alive():
-                player.hp = player.hp - self.enemy.damage
-                print("Enemy does {} damage. You have {} HP remaining.".
-                      format(self.enemy.damage, player.hp))
+    def modify_player(self, player):
+        if self.enemy.is_alive():
+            player.hp = player.hp - self.enemy.damage
+            print(f"Enemy does {self.enemy.damage} damage. You have {player.hp} HP remaining.")
 
 
 class FoyerTile(MapTile):
@@ -82,9 +110,6 @@ class TreasureTile(MapTile):
         return """"You've found the long-lost treasure
 chamber! Sadly, it has already been completely emptied by
 earlier adventurers. The only exit is to the south."""
-
-
-
 
 
 world_map = [

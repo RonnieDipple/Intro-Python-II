@@ -8,6 +8,11 @@ class Enemy:
     def is_alive(self):
         return self.hp > 0
 
+class Amarok(Enemy):
+    def __init__(self):
+        self.name = "AMAROK THE HUNTER"
+        self.hp = 300
+        self.damage = 50
 
 class TheToadPrince(Enemy):
     def __init__(self):
@@ -28,3 +33,4 @@ class TheLocustSwarm(Enemy):
         self.name = "THE SWARM"
         self.hp = 50
         self.damage = 5
+
