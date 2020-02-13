@@ -4,7 +4,7 @@ from textwrap import TextWrapper
 from src import player, world
 from src.player import Player
 from src.room import Room
-import src.enemy
+import src.enemies
 import src.item
 import src.world
 

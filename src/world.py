@@ -1,3 +1,10 @@
+import random
+
+from src import enemies
+from src.enemies import *
+from src.enemies import Enemy
+
+
 class MapTile:
     def __init__(self, x, y):
         self.x = x
@@ -16,6 +23,26 @@ class OutsideTile(MapTile):
 
     def intro_text(self):
         return """"North of you, the cave mount beckons"""
+
+class EnemyTile(MapTile):
+    def __init__(self, x, y):
+        r = random.random()
+        if r < 0.50:
+            self.enemy = enemies.TheCareTaker
+            self.alive_text = "The Care Taker appears out of nowhere, to take care of you"
+            self.dead_text = "The Care Taker is no more, he is as dead as Jacks love life"
+
+        super().__init__(x, y)
+
+        def intro_text(self):
+            text = self.alive_text if self.enemy.is_alive() else self.dead_text
+            return text
+
+        def modify_player(self, player):
+            if self.enemy.is_alive():
+                player.hp = player.hp - self.enemy.damage
+                print("Enemy does {} damage. You have {} HP remaining.".
+                      format(self.enemy.damage, player.hp))
 
 
 class FoyerTile(MapTile):
@@ -57,12 +84,15 @@ chamber! Sadly, it has already been completely emptied by
 earlier adventurers. The only exit is to the south."""
 
 
+
+
+
 world_map = [
 
-#This map is vital for traversing the world, to create new tiles create a new tile class then add that class here and with it's coordinates
-    [OverlookTile(0,0), TreasureTile(1,0), None],
-    [FoyerTile(0,1), NarrowTile(1,1), None],
-    [OutsideTile(0,2), None, None]
+    # This map is vital for traversing the world, to create new tiles create a new tile class then add that class here and with it's coordinates
+    [OverlookTile(0, 0), TreasureTile(1, 0), None],
+    [FoyerTile(0, 1), NarrowTile(1, 1), None],
+    [OutsideTile(0, 2), None, None]
 
 ]
 
@@ -78,9 +108,10 @@ world_map = [
 # outside = 0.2
 
 def tile_at(x, y):
-    if x < 0 or y < 0:
-        return None  # The world_map[y] part selects the row of the map and adding [x] selects the specific cell in that row
-    try:  # Catching IndexError will handle the situation where we pass in a coordinate greater than the bounds of the map
-        return world_map[y][x]  # And if x < 0 or y < 0 handles coordinates smaller than the bounds of the map
-    except IndexError:
+    if x < 0 or y < 0:  # if x < 0 or y < 0 handles coordinates smaller than the bounds of the map
+        return None
+    try:
+        return world_map[y][
+            x]  # The world_map[y] part selects the row of the map and adding [x] selects the specific cell in that row
+    except IndexError:  # Catching IndexError will handle the situation where we pass in a coordinate greater than the bounds of the map
         return None
