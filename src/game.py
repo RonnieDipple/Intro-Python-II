@@ -1,8 +1,12 @@
-from room import Room
-from player import Player
+import sys
+
+from src.player import Player
+from src.room import Room
+import src.enemy
+import src.item
+
 
 # Declare all the rooms
-
 room = {
     'outside':  Room("Outside Cave Entrance",
                      "North of you, the cave mount beckons"),
@@ -39,13 +43,27 @@ room['treasure'].s_to = room['narrow']
 #
 
 # Make a new player object that is currently in the 'outside' room.
-player = Room('outside', True)
+print("Outside")
 
 # Write a loop that:
 #
 # * Prints the current room name
 # * Prints the current description (the textwrap module might be useful here).
 # * Waits for user input and decides what to do.
+
+action_input =input("Action: ")
+if action_input == 'n' or action_input == 'N':
+    print("Go North")
+elif action_input == 's' or action_input == 'S':
+    print("Go South")
+elif action_input == 'e' or action_input == 'E':
+    print("Go East")
+elif action_input == 'w' or action_input == 'W':
+    print("Go West")
+elif action_input == 'q' or action_input == 'Q':
+    sys.exit()
+else:
+    print("Invalid action")
 #
 # If the user enters a cardinal direction, attempt to move to the room there.
 # Print an error message if the movement isn't allowed.

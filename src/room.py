@@ -1,4 +1,6 @@
 # Implement a class to hold room information. This should have name and
 # description attributes.
-class room:
-    pass
+class Room:
+   def __init__(self, roomName, roomDescription):
+       self.roomName = roomName
+       self.roomDescription = roomDescription
