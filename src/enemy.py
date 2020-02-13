@@ -7,14 +7,17 @@ class Enemy:
     def is_alive(self):
         return self.hp > 0
 
+
 class TheToadPrince(Enemy):
     def __init__(self):
-        super().__init__(name="THE TOAD PRINCE", hp=250, damage=35)
+        super().__init__("THE TOAD PRINCE", 250, 35)
+
 
 class TheCareTaker(Enemy):
     def __init__(self):
-        super().__init__(name="THE CARE TAKER", hp=100, damage=15)
+        super().__init__("THE CARE TAKER", 100, 15)
+
 
 class TheLocustSwarm(Enemy):
     def __init__(self):
-        super().__init__(name="THE SWARM", hp=50, damage=5)
+        super().__init__("THE SWARM", 50, 5)

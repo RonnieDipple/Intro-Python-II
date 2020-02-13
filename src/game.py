@@ -43,7 +43,7 @@ room['treasure'].s_to = room['narrow']
 #
 
 # Make a new player object that is currently in the 'outside' room.
-print("Outside")
+
 
 # Write a loop that:
 #
@@ -51,21 +51,44 @@ print("Outside")
 # * Prints the current description (the textwrap module might be useful here).
 # * Waits for user input and decides what to do.
 
-action_input =input("Action: ")
-if action_input == 'n' or action_input == 'N':
-    print("Go North")
-elif action_input == 's' or action_input == 'S':
-    print("Go South")
-elif action_input == 'e' or action_input == 'E':
-    print("Go East")
-elif action_input == 'w' or action_input == 'W':
-    print("Go West")
-elif action_input == 'q' or action_input == 'Q':
-    sys.exit()
-else:
-    print("Invalid action")
 #
 # If the user enters a cardinal direction, attempt to move to the room there.
 # Print an error message if the movement isn't allowed.
 #
 # If the user enters "q", quit the game.
+
+
+
+
+#Testing area
+def play():
+    inventory = ["Dagger", "Gold(5)", "Crusty Bread"]
+    print("Outside")
+    while True:
+        action_input = get_player_command()
+        if action_input in ['n', 'N']:
+            print("Go North")
+        elif action_input in ['s', 'S']:
+            print("Go South")
+        elif action_input in ['e', 'E']:
+            print("Go East")
+        elif action_input in ['w', 'W']:
+            print("Go West")
+        elif action_input in ['i', 'I']:
+            print("Inventory:")
+            for item in inventory:
+                print('*' + str(item))
+        elif action_input in ['q', 'Q']:
+            sys.exit()
+        else:
+            print("Invalid action")
+
+
+def get_player_command():
+    return input("Action: ")
+
+
+play()
+
+
+
