@@ -18,6 +18,7 @@ class WitcherCoins(Item):
 class Weapon(Item):
 
     def __init__(self, name, description, value, damage):
+        raise NotImplementedError(f"Do not create raw Weapon objects ")
         self.damage = damage
         super().__init__(name, description, value)
 

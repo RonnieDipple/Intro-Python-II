@@ -1,5 +1,6 @@
 import sys
 
+from src import player
 from src.player import Player
 from src.room import Room
 import src.enemy
@@ -38,6 +39,17 @@ room['narrow'].w_to = room['foyer']
 room['narrow'].n_to = room['treasure']
 room['treasure'].s_to = room['narrow']
 
+#coordinates
+
+#Overlook = 0.0     Treasure = 1.0
+#    ↓ ↑                ↓ ↑
+#    ↓ ↑     ←←←←←      ↓ ↑
+#Foyer = 0.1 →→→→→ Narrow = 1.1
+#    ↓ ↑
+#    ↓ ↑
+#outside = 0.2
+
+
 #
 # Main
 #
@@ -62,7 +74,7 @@ room['treasure'].s_to = room['narrow']
 
 #Testing area
 def play():
-    inventory = [src.Dagger(), "Gold(5)", "Crusty Bread"]
+    player = Player()
     print("Outside")
     while True:
         action_input = get_player_command()
@@ -75,9 +87,7 @@ def play():
         elif action_input in ['w', 'W']:
             print("Go West")
         elif action_input in ['i', 'I']:
-            print("Inventory:")
-            for item in inventory:
-                print('*' + str(item))
+            player.print_inventory()
         elif action_input in ['q', 'Q']:
             sys.exit()
         else:
@@ -86,21 +96,6 @@ def play():
 
 def get_player_command():
     return input("Action: ")
-
-def most_powerful_weapon(inventory):
-    max_damage = 0
-    best_weapon = None #None is similar to null aka absence of value ake the abyss
-    for item in inventory:
-        try: # The inventory will sometimes have non-weapons they don't have an attribute for damage,
-            # so wrapping the code in a try and then error handling with AttributeError: pass which skips the comparison if
-            # and therefore prevents a AttributeError: 'str' object has no attribute 'damage' exception
-            if item.damage > max_damage:
-                best_weapon = item
-                max_damage = item.damage
-        except AttributeError:
-            pass
-    return best_weapon
-
 
 play()
 
