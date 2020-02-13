@@ -36,3 +36,7 @@ class GesheftSilverSword(Weapon):
 class EnchantedShotgun(Weapon):
     def __init__(self):
         super().__init__("Enchanted Shotgun, Very powerful, If your name is Ash this must bring back memories")
+
+
+
+
