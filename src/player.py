@@ -5,14 +5,39 @@ from src import item
 
 class Player:
     def __init__(self):
-        self.inventory = [item.Dagger(),
+        self.inventory = [item.EnchantedShotgun,
                           'WitcherGold(1)',
                           'Crusty Bread']
+
+        self.x = 0
+        self.y = 2
+
+
+# x, y aka dx and dy correspond to coordinates on the map
+    def move(self, dx, dy):
+        self.x += dx #dx, dy represent named parameters
+        self.y += dy
+
+
+    def move_north(self):
+        self.move(0, -1)
+
+
+    def move_south(self):
+        self.move(0, 1)
+
+
+    def move_east(self):
+        self.move(1, 0)
+
+
+    def move_west(self):
+        self.move(-1, 0)
 
     def print_inventory(self):
         print("Inventory:")
         for item in self.inventory:
-            print('* '+str(item))
+            print('* ' + str(item))
 
         best_weapon = self.most_powerful_weapon()
         print(f"Your best weapon is you {best_weapon}")
