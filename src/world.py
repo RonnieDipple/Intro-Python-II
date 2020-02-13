@@ -59,7 +59,7 @@ earlier adventurers. The only exit is to the south."""
 
 world_map = [
 
-#This map is vital for traversing the world, to create new tiles create a new tile class then input that class and coordinates
+#This map is vital for traversing the world, to create new tiles create a new tile class then add that class here and with it's coordinates
     [OverlookTile(0,0), TreasureTile(1,0), None],
     [FoyerTile(0,1), NarrowTile(1,1), None],
     [OutsideTile(0,2), None, None]
