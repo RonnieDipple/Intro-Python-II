@@ -1,4 +1,5 @@
 import sys
+from textwrap import TextWrapper
 
 from src import player, world
 from src.player import Player
@@ -24,20 +25,30 @@ import src.world
 # If the user enters "q", quit the game.
 
 def play():
-    player = Player()
-    print("Outside")
+    player1 = Player()
+    wrapper = TextWrapper()
+    wrapper.initial_indent = "* "
     while True:
-        room = world.tile_at(player.x, player.y)
+        room = world.tile_at(player1.x, player1.y)
+        print(f"You are currently in {room.description()}")
         print(room.intro_text())
         action_input = get_player_command()
-        if action_input in ['q', 'Q']:
+        if action_input in ['n', 'N']:
+            player1.move_north()
+        elif action_input in ['s', 'S']:
+            player1.move_south()
+        elif action_input in['e', 'E']:
+            player1.move_east()
+        elif action_input in ['w', 'W']:
+            player1.move_west()
+        elif action_input in ['q', 'Q']:
             sys.exit()
         else:
             print("Invalid action")
 
 
 def get_player_command():
-    return input("Action: ")
+    return input("To traverse the game and see what wonders it holds you may issue these commands \n 'n' to go North, \n 's' to go South, \n 'e' to go East \n 'w' to go West \n 'i' to look in your inventory \n 'q' to enter oblivion \n Make your choice and seal your fate:")
 
 
 play()

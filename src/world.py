@@ -6,10 +6,13 @@ class MapTile:
     def intro_text(self):
         raise NotImplementedError("Create a subclass instead of this")
 
+    def modify_player(self, player):
+        pass
+
 
 class OutsideTile(MapTile):
     def description(self):
-        return """"Outside Cave Entrance"""
+        return "Outside A Cave Entrance"
 
     def intro_text(self):
         return """"North of you, the cave mount beckons"""
@@ -56,9 +59,10 @@ earlier adventurers. The only exit is to the south."""
 
 world_map = [
 
-    [OverlookTile, TreasureTile, None],
-    [FoyerTile, NarrowTile, None],
-    [OutsideTile, None, None]
+#This map is vital for traversing the world, to create new tiles create a new tile class then input that class and coordinates
+    [OverlookTile(0,0), TreasureTile(1,0), None],
+    [FoyerTile(0,1), NarrowTile(1,1), None],
+    [OutsideTile(0,2), None, None]
 
 ]
 
