@@ -1,20 +1,23 @@
 # Write a class to hold player information, e.g. what room they are in
 # currently.
-from src import item, world
+from src import items, world
 
 
 class Player:
     def __init__(self):
         #Initial player items
-        self.inventory = [item.EnchantedShotgun,
-                          'WitcherGold(1)',
-                          'Crusty Bread']
-
+        self.inventory = [items.EnchantedShotgun,
+                          items.WitcherCoins,
+                          items.CrustyBread]
+        #Player starts in this position/tile
         self.x = 0
         self.y = 2
+        #players starting hp
+        self.hp = 100
 
         #Player attack method
     def attack(self):
+        #Auto chooses best weapon
         best_weapon = self.most_powerful_weapon()
         room = world.tile_at(self.x, self.y)
         enemy = room.enemy
@@ -54,6 +57,34 @@ class Player:
 
         best_weapon = self.most_powerful_weapon()
         print(f"Your best weapon is you {best_weapon}")
+
+    #create health function needs to know what items the player has,
+    # needs to display them for selection,
+    # take user inout to select the item
+    # Consume that item and remove it from inventory code can probably be reused to drop the item in rooms/tiles
+
+    def heal(self):
+        consumables = [item for item in self.inventory
+                       if isinstance(item, items.Consumable)]
+        if not consumables:
+            print("You don't have any items to heal you!")
+            return
+
+        for i, item in enumerate(consumables, 1):
+            print("Choose an item to use to heal:")
+            print(f"{i}.{item}")
+
+        valid = False
+        while not valid:
+            choice = input("")
+            try:
+                to_eat = consumables[int(choice)-1]
+                self.hp = min(100, self.hp + to_eat.healing_value)
+                self.inventory.remove(to_eat)
+                print(f"Current HP: {self.hp}")
+                valid = True
+            except(ValueError, IndexError):
+                print("Invalid choice, How dare you!")
 
 #Finds the most powerful weapon
     def most_powerful_weapon(self):

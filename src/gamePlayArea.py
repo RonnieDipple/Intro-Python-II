@@ -5,7 +5,7 @@ from src import player, world
 from src.player import Player
 from src.room import Room
 import src.enemies
-import src.item
+import src.items
 import src.world
 
 
@@ -32,6 +32,7 @@ def play():
         room = world.tile_at(player1.x, player1.y)
         print(f"You are currently in {room.description()}")
         print(room.intro_text())
+        room.modify_player(player1)#controls hp loss and death
         action_input = get_player_command()
         if action_input in ['n', 'N']:
             player1.move_north()
@@ -41,6 +42,12 @@ def play():
             player1.move_east()
         elif action_input in ['w', 'W']:
             player1.move_west()
+        elif action_input in['i', 'I']:
+            player1.print_inventory()
+        elif action_input in['a', 'A']:
+            player1.attack()
+        elif action_input in ['h', 'H']:
+            player1.heal()
         elif action_input in ['q', 'Q']:
             sys.exit()
         else:

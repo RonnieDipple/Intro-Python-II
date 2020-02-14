@@ -13,7 +13,8 @@ class MapTile:
     def intro_text(self):
         raise NotImplementedError("Create a subclass instead of this")
 
-    def modify_player(self, player):
+
+    def modify_player(self, player): #abstract raises an exception without this and I have no idea why, not good
         pass
 
 #Starting tile

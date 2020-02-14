@@ -39,5 +39,17 @@ class EnchantedShotgun(Weapon):
         super().__init__("Enchanted Shotgun, Very powerful, If your name is Ash this must bring back memories")
 
 
+class Consumable:
+    def __init__(self):
+        raise NotImplementedError("Do not create raw Consumable objects")
+
+    def __str__(self):
+        return f"{self.name}(+{self.healing_value})"
 
 
+# Using inheritence from Consumable you can now create food that heals and eventually potions etc
+class CrustyBread(Consumable):
+
+    def __init__(self):
+        self.name = "Crusty Loaf"
+        self.healing_value = 10
