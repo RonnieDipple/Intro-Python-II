@@ -30,7 +30,6 @@ def play():
     wrapper.initial_indent = "* "
     while True:
         room = world.tile_at(player1.x, player1.y)
-        print(f"You are currently in {room.description()}")
         print(room.intro_text())
         room.modify_player(player1)#controls hp loss and death
         action_input = get_player_command()
@@ -93,7 +92,7 @@ play()
 # Link rooms together
 
 # room['outside'].n_to = room['foyer']
-# room['foyer'].s_to = room['outside']
+# room['foyer'].s_to = room['outside']e
 # room['foyer'].n_to = room['overlook']
 # room['foyer'].e_to = room['narrow']
 # room['overlook'].s_to = room['foyer']

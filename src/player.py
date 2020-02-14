@@ -6,9 +6,9 @@ from src import items, world
 class Player:
     def __init__(self):
         # Initial player items
-        self.inventory = [items.EnchantedShotgun,
-                          items.WitcherCoins,
-                          items.CrustyBread]
+        self.inventory = [items.EnchantedShotgun(),
+                          items.GesheftSilverSword(),
+                          items.CrustyBread()]
         # Player starts in this position/tile
         self.x = 0
         self.y = 2
@@ -97,7 +97,7 @@ class Player:
         best_weapon = self.most_powerful_weapon()
         room = world.tile_at(self.x, self.y)
         enemy = room.enemy
-        print(f"You use{best_weapon.damage} against {enemy.name} ")
+        print(f"You use {best_weapon.name} against {enemy.name} ")
         enemy.hp -= best_weapon.damage
         if not enemy.is_alive():
             print(f"You killed {enemy.name}")

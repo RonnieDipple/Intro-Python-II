@@ -17,19 +17,12 @@ class MapTile:
     def modify_player(self, player): #abstract raises an exception without this and I have no idea why, not good
         pass
 
-#Starting tile
-class OutsideTile(MapTile):
-    def description(self):
-        return "Outside A Cave Entrance"
 
-    def intro_text(self):
-        return """"North of you, the cave mount beckons"""
 
 
 class EnemyTile(MapTile):
     #Place this anywhere on the map and enemies will randomly spawn, need to figure out a way to do that on preexisting maps
-    def description(self):
-        return "A scary place who knows what lurks here"
+
     def __init__(self, x, y):
         r = random.random()
         #The random() method module returns a decimal from 0.0 to 1.0 which means the player will encounter the care take in 50% rooms/tiles
@@ -82,6 +75,13 @@ class EnemyTile(MapTile):
 
 
 
+#Starting tile
+class OutsideTile(MapTile):
+    def description(self):
+        return "Outside A Cave Entrance"
+
+    def intro_text(self):
+        return """"North of you, the cave mount beckons"""
 #Quest tiles
 class FoyerTile(MapTile):
     def description(self):
