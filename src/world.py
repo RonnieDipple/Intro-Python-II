@@ -73,8 +73,6 @@ class EnemyTile(MapTile):
             print(f"Enemy does {self.enemy.damage} damage. You have {player.hp} HP remaining.")
 
 
-
-
 #Starting tile
 class OutsideTile(MapTile):
     def description(self):

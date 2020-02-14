@@ -1,4 +1,5 @@
 import sys
+from collections import OrderedDict
 from textwrap import TextWrapper
 
 from src import player, world
@@ -31,42 +32,66 @@ def play():
     while True:
         room = world.tile_at(player1.x, player1.y)
         print(room.intro_text())
-        room.modify_player(player1)#controls hp loss and death
-        action_input = get_player_command()
-        if action_input in ['n', 'N']:
-            player1.move_north()
-        elif action_input in ['s', 'S']:
-            player1.move_south()
-        elif action_input in['e', 'E']:
-            player1.move_east()
-        elif action_input in ['w', 'W']:
-            player1.move_west()
-        elif action_input in['a', 'A']:
-            player1.attack()
-        elif action_input in['i', 'I']:
-            player1.print_inventory()
-        elif action_input in ['h', 'H']:
-            player1.heal()
-        elif action_input in ['q', 'Q']:
-            sys.exit()
+        room.modify_player(player1)  # controls hp loss and death
+        choose_action(room, player1)  # abstraction the core is below
+
+
+
+def choose_action(room, player):
+    action = None
+    while not action:
+        available_actions = get_available_actions(room, player)
+        action_input = input("Action: ")
+        action = available_actions.get(action_input)
+    if action:
+        action()# short hand for if action!=None or if action is not None, then if function found it get's executed due to ()
+    else:
+        print("Invalid action")
+
+# get_available_actions creates a dictionary of hotkey-action pairs.
+def get_available_actions(room, player):# this prevents sill behaviors
+    actions = OrderedDict() #dictionaries come disordered but not this one :)
+    print("Choose an action: ")
+    if player.inventory:
+        action_adder(actions, 'i', player.print_inventory, "Print inventory") # Here I am just refering to the player.print_inventory function not executing it as we would if it was player.print_inventory()
+        if isinstance(room, world.EnemyTile) and room.enemy.is_alive(): # This is not the first time I have used is instance but The isinstance() function checks if the object (first argument) is an instance or subclass of classinfo class (second argument)
+            action_adder(actions, 'a', player.attack, "Attack")
         else:
-            print("Invalid action")
+            if world.tile_at(room.x, room.y - 1):
+                action_adder(actions, 'n', player.move_north, "Go north")
+            if world.tile_at(room.x, room.y + 1):
+                action_adder(actions, 's', player.move_south, "Go south")
+            if world.tile_at(room.x + 1, room.y):
+                action_adder(actions, 'e', player.move_east, "Go east")
+            if world.tile_at(room.x - 1, room.y):
+                action_adder(actions, 'w', player.move_west, "Go west")
+        if player.hp < 100:
+            action_adder(actions, 'h', player.heal, "Heal")
+
+        return actions
 
 
-def get_player_command():
-    return input("To traverse the game and see what wonders it holds you may issue these commands \n "
-                 "'n' to go North, \n "
-                 "'s' to go South, \n "
-                 "'e' to go East \n "
-                 "'w' to go West \n "
-                 "'i' to look in your inventory \n "
-                 "'q' to enter oblivion \n "
-                 "'h' to heal \n "
-                 "'a' to attack \n "
-                 " Make your choice and seal your fate:")
+def action_adder(action_dict, hotkey, action, name):
+    action_dict[hotkey.lower()] = action
+    action_dict[hotkey.upper()] = action
+    print(f"{hotkey}: {name}")
 
 
 play()
+
+
+# Redundant due to choose action
+# def get_player_command():
+# return input("To traverse the game and see what wonders it holds you may issue these commands \n "
+# "'n' to go North, \n "
+# "'s' to go South, \n "
+# "'e' to go East \n "
+# "'w' to go West \n "
+# "'i' to look in your inventory \n "
+# "'q' to enter oblivion \n "
+# "'h' to heal \n "
+# "'a' to attack \n "
+# " Make your choice and seal your fate:")
 
 # Redundant assignment comments
 # Declare all the rooms
