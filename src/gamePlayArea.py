@@ -26,6 +26,8 @@ import src.world
 # If the user enters "q", quit the game.
 
 def play():
+    print("Outside A Cave Entrance")
+    world.parse_world_dsl()
     player1 = Player()
     wrapper = TextWrapper()
     wrapper.initial_indent = "* "
