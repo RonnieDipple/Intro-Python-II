@@ -9,15 +9,15 @@ class Weapon:
 
 class GesheftSilverSword(Weapon):
     def __init__(self):
-        self.name ="Gesheft Silver Sword"
-        self.description ="The Ultimate Weapon, with your bad breath being a close second",
+        self.name = "Gesheft Silver Sword"
+        self.description = "The Ultimate Weapon, with your bad breath being a close second",
         self.damage = 50
-        self.value =50
+        self.value = 50
 
 
 class EnchantedShotgun(Weapon):
     def __init__(self):
-        self.name ="Enchanted Shotgun"
+        self.name = "Enchanted Shotgun"
         self.description = "Enchanted Shotgun, Very powerful, If your name is Ash this must bring back memories"
         self.damage = 30
         self.value = 100
@@ -39,11 +39,14 @@ class CrustyBread(Consumable):
         self.healing_value = 10
         self.value = 5
 
+
 class HealingPotion(Consumable):
+
     def __init__(self):
         self.name = "Healing Potion"
         self.healing_value = 50
         self.value = 60
+
 
 # class WitcherCoins(self):
 # def __init__(self, amount, name, description, value):

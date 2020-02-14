@@ -10,10 +10,12 @@ class Player:
                           items.GesheftSilverSword(),
                           items.CrustyBread()]
         # Player starts in this position/tile
-        self.x = 0
-        self.y = 2
+        self.x = world.start_tile_location[0]
+        self.y = world.start_tile_location[1]
         # players starting hp
         self.hp = 100
+        self.witcherCoins = 10
+        self.victory = False
 
     def is_alive(self):
         return self.hp > 0
@@ -23,6 +25,7 @@ class Player:
         print("Inventory:")
         for item in self.inventory:
             print('* ' + str(item))
+        print(f"Witcher coins: {self.witcherCoins}")
 
         best_weapon = self.most_powerful_weapon()
         print(f"Your best weapon is you {best_weapon}")
@@ -104,4 +107,6 @@ class Player:
         else:
             print(f"{enemy.name} HP is {enemy.hp}")
 
-
+    def trade(self):
+        room = world.tile_at(self.x, self.y)
+        room.check_if_trade(self)

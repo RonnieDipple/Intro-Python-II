@@ -26,16 +26,19 @@ import src.world
 # If the user enters "q", quit the game.
 
 def play():
-    print("Outside A Cave Entrance")
+    print("This Game is HARDCORE you will die, You are also Outside A Cave Entrance")
     world.parse_world_dsl()
     player1 = Player()
     wrapper = TextWrapper()
     wrapper.initial_indent = "* "
-    while True:
+    while player1.is_alive() and not player1.victory:
+
         room = world.tile_at(player1.x, player1.y)
         print(room.intro_text())
         room.modify_player(player1)  # controls hp loss and death
         choose_action(room, player1)  # abstraction the core is below
+
+
 
 
 
@@ -45,6 +48,7 @@ def choose_action(room, player):
         available_actions = get_available_actions(room, player)
         action_input = input("Action: ")
         action = available_actions.get(action_input)
+
     if action:
         action()# short hand for if action!=None or if action is not None, then if function found it get's executed due to ()
     else:
@@ -54,8 +58,12 @@ def choose_action(room, player):
 def get_available_actions(room, player):# this prevents sill behaviors
     actions = OrderedDict() #dictionaries come disordered but not this one :)
     print("Choose an action: ")
+
+
     if player.inventory:
-        action_adder(actions, 'i', player.print_inventory, "Print inventory") # Here I am just refering to the player.print_inventory function not executing it as we would if it was player.print_inventory()
+        action_adder(actions, 'i', player.print_inventory(), "Print inventory") # Here I am just refering to the player.print_inventory function not executing it as we would if it was player.print_inventory()
+        if isinstance(room, world.TraderJoes):
+            action_adder(actions, 't', player.trade, "Trade")
         if isinstance(room, world.EnemyTile) and room.enemy.is_alive(): # This is not the first time I have used is instance but The isinstance() function checks if the object (first argument) is an instance or subclass of classinfo class (second argument)
             action_adder(actions, 'a', player.attack, "Attack")
         else:
@@ -67,10 +75,14 @@ def get_available_actions(room, player):# this prevents sill behaviors
                 action_adder(actions, 'e', player.move_east, "Go east")
             if world.tile_at(room.x - 1, room.y):
                 action_adder(actions, 'w', player.move_west, "Go west")
+
         if player.hp < 100:
             action_adder(actions, 'h', player.heal, "Heal")
 
+
+
         return actions
+
 
 
 def action_adder(action_dict, hotkey, action, name):

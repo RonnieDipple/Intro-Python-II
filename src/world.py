@@ -1,6 +1,7 @@
 import random
 
 from src import enemies
+from src import npc
 from src.enemies import *
 from src.enemies import Enemy
 
@@ -118,7 +119,78 @@ class TreasureTile(MapTile):
         return """"You've found the long-lost treasure
 chamber! Sadly, it has already been completely emptied by
 earlier adventurers. The only exit is to the south."""
+    def modify_player(self, player):
+        player.victory = True
 
+class TraderJoes(MapTile):
+    def __init__(self, x,y):
+        self.trader = npc.Trader()
+        super().__init__(x, y)
+
+    def check_if_trade(self, player):
+        while True:
+            print("Would you like to (B)uy, (S)ell, or (Q)uit?")
+            user_input = input()
+            if user_input in ['Q', 'q']:
+                return
+            elif user_input in ['B', 'b']:
+                print("Here's whats available to buy: ")
+                self.trade(buyer=player, seller=self.trader)
+            elif user_input in ['S', 's']:
+                print("Here's whats available to sell: ")
+                self.trade(buyer=self.trader, seller=player)
+            else:
+                print("Invalid choice!")
+
+    def trade(self, buyer, seller):
+        for i, item in enumerate(seller.inventory, 1):
+            print("{}. {} - {} Gold".format(i, item.name, item.value))
+        while True:
+            user_input = input("Choose an item or press Q to exit: ")
+            if user_input in ['Q', 'q']:
+                return
+            else:
+                try:
+                    choice = int(user_input)
+                    to_swap = seller.inventory[choice - 1]
+                    self.swap(seller, buyer, to_swap)
+                except ValueError:
+                    print("Invalid choice!")
+
+    def swap(self, seller, buyer, item):
+        if item.value > buyer.gold:
+            print("That's too expensive")
+            return
+        seller.inventory.remove(item)
+        buyer.inventory.append(item)
+        seller.gold = seller.gold + item.value
+        buyer.gold = buyer.gold - item.value
+        print("Trade complete!")
+
+    def intro_text(self):
+        return """An almost wolf like voice calls to your from the dark "Want to trade"? """
+
+class FindGoldTile(MapTile):
+    def __init__(self, x, y):
+        self.witcherCoins = random.randint(1,50)
+        self.witcherCoins_claimed = False
+
+        super().__init__(x, y)
+
+    def modify_player(self, player):
+        if not self.witcherCoins_claimed:
+            self.witcherCoins_claimed = True
+            player.witcherCoins = player.witcherCoins + self.witcherCoins
+            print(f"+ {self.witcherCoins} Witcher Coins Added")
+    def intro_text(self):
+        if self.witcherCoins_claimed:
+            return  """
+            Another boring section, continue
+            """
+        else:
+            """
+            Some one tossed a coin to their witcher and it didn't land in his pocket, it landed on the floor for you to pick up
+            """
 
 ####How the DSL Below works, first the dsl is validated and if it is invalid a syntaxError occurs,
 # then the DSL get's split into lines and the empty lines are removed, the triple quote syntax world dsl """ is necessary to do this
@@ -128,7 +200,7 @@ world_dsl = """
 |OT|TT|ET|ET|ET|
 |FT|  |  |  |ET|
 |ET|NT|ET|  |ET|
-|ET|  |ET|ET|ET|
+|TJ|  |ET|ET|ET|
 |ST|  |ET|  |ET|
 """
 
@@ -159,6 +231,8 @@ tile_type_dict = {"TT": TreasureTile,
                   "OT": OverlookTile,
                   "NT": NarrowTile,
                   "ET": EnemyTile,
+                  "TJ": TraderJoes,
+                  "FG": FindGoldTile,
                   "  ": None}
 
 
@@ -176,11 +250,18 @@ def parse_world_dsl():
         dsl_cells = [c for c in dsl_cells if c]
         for x, dsl_cell in enumerate(dsl_cells):
             tile_type = tile_type_dict[dsl_cell]
+            if tile_type == OutsideTile:
+                global start_tile_location
+                start_tile_location = x, y
             row.append(tile_type(x, y) if tile_type else None)  # where the magic happens
         world_map.append(row)
 
-
 world_map = []
+
+start_tile_location = None
+
+
+
 
 
 def tile_at(x, y):
