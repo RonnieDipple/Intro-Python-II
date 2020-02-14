@@ -42,10 +42,10 @@ def play():
             player1.move_east()
         elif action_input in ['w', 'W']:
             player1.move_west()
-        elif action_input in['i', 'I']:
-            player1.print_inventory()
         elif action_input in['a', 'A']:
             player1.attack()
+        elif action_input in['i', 'I']:
+            player1.print_inventory()
         elif action_input in ['h', 'H']:
             player1.heal()
         elif action_input in ['q', 'Q']:
@@ -55,7 +55,16 @@ def play():
 
 
 def get_player_command():
-    return input("To traverse the game and see what wonders it holds you may issue these commands \n 'n' to go North, \n 's' to go South, \n 'e' to go East \n 'w' to go West \n 'i' to look in your inventory \n 'q' to enter oblivion \n Make your choice and seal your fate:")
+    return input("To traverse the game and see what wonders it holds you may issue these commands \n "
+                 "'n' to go North, \n "
+                 "'s' to go South, \n "
+                 "'e' to go East \n "
+                 "'w' to go West \n "
+                 "'i' to look in your inventory \n "
+                 "'q' to enter oblivion \n "
+                 "'h' to heal \n "
+                 "'a' to attack \n "
+                 " Make your choice and seal your fate:")
 
 
 play()

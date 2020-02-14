@@ -35,36 +35,36 @@ class EnemyTile(MapTile):
         #The random() method module returns a decimal from 0.0 to 1.0 which means the player will encounter the care take in 50% rooms/tiles
         if r < 0.50:
             self.enemy = enemies.TheCareTaker()
-            self.alive_text = "The Care Taker appears out of nowhere" \
-                              " to take care of you"
-            self.dead_text = "The Care Taker is no more" \
-                             "he is as dead as Jacks love life"
+            self.alive_text = "The Care Taker appears out of nowhere " \
+                              " to take care of you "
+            self.dead_text = "The Care Taker is no more " \
+                             "he is as dead as Jacks love life "
         elif r < 0.80:
             self.enemy = enemies.TheToadPrince()
-            self.alive_text = "You feel something moist hit the back of your head" \
-                              "You turn to see a frog wearing royal robes and a crown with his mouth open" \
-                              "He looks hungry"
+            self.alive_text = "You feel something moist hit the back of your head " \
+                              "You turn to see a frog wearing royal robes and a crown with his mouth open " \
+                              "He looks hungry "
 
-            self.dead_text = "A crown lays on the floor on it's side" \
-                             "What looks to be a half melted frog's body begins to hiss"
+            self.dead_text = "A crown lays on the floor on it's side " \
+                             "What looks to be a half melted frog's body begins to hiss "
 
         elif r < 0.95:
             self.enemy = enemies.TheLocustSwarm()
-            self.alive_text = "You hear a distant hum approaching" \
-                              "Out the corner of your eye you see something move" \
-                              "A cloud of darkness comes roaring towards you"
+            self.alive_text = "You hear a distant hum approaching " \
+                              "Out the corner of your eye you see something move " \
+                              "A cloud of darkness comes roaring towards you "
 
-            self.dead_text = "Dozens of little bodies lay on the ground twitching" \
-                             "You move a little and hear a crunch"
+            self.dead_text = "Dozens of little bodies lay on the ground twitching " \
+                             "You move a little and hear a crunch "
         else:
             self.enemy = enemies.Amarok()
-            self.alive_text = "You hear a scratch" \
-                              "You feel a gust of wind" \
-                              "You hear a growl and feel his breath on your neck"
+            self.alive_text = "You hear a scratch " \
+                              "You feel a gust of wind " \
+                              "You hear a growl and feel his breath on your neck "
 
-            self.dead_text = "You have done what many have failed to do" \
-                             "Amarok lays dead" \
-                             "But for how long?"
+            self.dead_text = "You have done what many have failed to do " \
+                             "Amarok lays dead " \
+                             "But for how long? "
 
         super().__init__(x, y)
 

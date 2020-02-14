@@ -5,19 +5,20 @@ from src import items, world
 
 class Player:
     def __init__(self):
-        #Initial player items
+        # Initial player items
         self.inventory = [items.EnchantedShotgun,
                           items.WitcherCoins,
                           items.CrustyBread]
-        #Player starts in this position/tile
+        # Player starts in this position/tile
         self.x = 0
         self.y = 2
-        #players starting hp
+        # players starting hp
         self.hp = 100
 
-        #Player attack method
+        # Player attack method
+
     def attack(self):
-        #Auto chooses best weapon
+        # Auto chooses best weapon
         best_weapon = self.most_powerful_weapon()
         room = world.tile_at(self.x, self.y)
         enemy = room.enemy
@@ -28,12 +29,8 @@ class Player:
         else:
             print(f"{enemy.name} HP is {enemy.hp}")
 
-
-
-
-
     # x, y aka dx and dy correspond to coordinates on the map
-    #I felt more comfortable setting up movement using coordinates due to my Dyslexia
+    # I felt more comfortable setting up movement using coordinates due to my Dyslexia
     def move(self, dx, dy):
         self.x += dx  # dx, dy represent named parameters
         self.y += dy
@@ -49,7 +46,8 @@ class Player:
 
     def move_west(self):
         self.move(-1, 0)
-#prints inventory
+
+    # prints inventory
     def print_inventory(self):
         print("Inventory:")
         for item in self.inventory:
@@ -58,7 +56,7 @@ class Player:
         best_weapon = self.most_powerful_weapon()
         print(f"Your best weapon is you {best_weapon}")
 
-    #create health function needs to know what items the player has,
+    # create health function needs to know what items the player has,
     # needs to display them for selection,
     # take user inout to select the item
     # Consume that item and remove it from inventory code can probably be reused to drop the item in rooms/tiles
@@ -78,7 +76,7 @@ class Player:
         while not valid:
             choice = input("")
             try:
-                to_eat = consumables[int(choice)-1]
+                to_eat = consumables[int(choice) - 1]
                 self.hp = min(100, self.hp + to_eat.healing_value)
                 self.inventory.remove(to_eat)
                 print(f"Current HP: {self.hp}")
@@ -86,7 +84,7 @@ class Player:
             except(ValueError, IndexError):
                 print("Invalid choice, How dare you!")
 
-#Finds the most powerful weapon
+    # Finds the most powerful weapon
     def most_powerful_weapon(self):
         max_damage = 0
         best_weapon = None  # None is similar to null aka absence of value ake the abyss
